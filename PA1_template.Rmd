@@ -17,7 +17,7 @@ if(!file.exists("data")) {
 }
 ```
 Read file and save it in activity variable.
-```{r}
+```{r cache=TRUE}
 activity <- read.csv("data/activity.csv")
 ```
 Show information about in data set using str function
@@ -28,8 +28,6 @@ Transform date to date type
 ```{r}
 activity <- transform(activity, date = as.Date(date))
 str(activity)
-head(activity)
-tail(activity)
 ```
 
 ## What is mean total number of steps taken per day?

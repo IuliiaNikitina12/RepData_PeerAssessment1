@@ -7,8 +7,30 @@ output:
 
 
 ## Loading and preprocessing the data
-
-
+Download file from the web and unzip it.
+```{r echo=TRUE, cache=TRUE}
+fileUrl <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
+if(!file.exists("data")) {
+  dir.create("data")
+  download.file(fileUrl, "./data/activity.zip")
+  unzip("data/activity.zip", exdir = "data")
+}
+```
+Read file and save it in activity variable.
+```{r}
+activity <- read.csv("data/activity.csv")
+```
+Show information about in data set using str function
+```{r}
+str(activity)
+```
+Transform date to date type
+```{r}
+activity <- transform(activity, date = as.Date(date))
+str(activity)
+head(activity)
+tail(activity)
+```
 
 ## What is mean total number of steps taken per day?
 

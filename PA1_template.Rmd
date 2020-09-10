@@ -71,6 +71,16 @@ Create Time series plot of the average number of steps taken
 ```{r}
 plot(row.names(meanStepsPerInterval), meanStepsPerInterval$meanStepsPerInterval, type = "l", col = "blue", lwd = 2, main = "Average number of steps per interval", xlab = "Interval", ylab = "Average steps")
 ```
+
+Calculate which interval contains the maximum number of steps
+```{r}
+meanStepsPerInterval[which.max(meanStepsPerInterval$meanStepsPerInterval), ]
+```
+As we can see, this value are in interval: 835
+```{r}
+meanStepsPerInterval["835",]
+```
+
 ## Imputing missing values
 
 

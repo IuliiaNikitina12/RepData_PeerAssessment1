@@ -31,8 +31,24 @@ str(activity)
 ```
 
 ## What is mean total number of steps taken per day?
-
-
+Calculate the total number of steps per day
+```{r}
+totalStepsPerDay <- sapply(split(activity$steps, activity$date), sum)
+```
+Sapply function returns a vector, so for plots we should convert it to data frame
+```{r}
+totalStepsPerDay <- as.data.frame(totalStepsPerDay)
+```
+Make a histogram of the total number of steps taken each day
+1. Load package ggplot2
+```{r}
+library(ggplot2)
+```
+2. Create the histogram
+```{r}
+p <- ggplot(data = totalStepsPerDay, aes(x = totalStepsPerDay)) + geom_histogram(fill = "green", binwidth = 1000) + labs(x = "Steps", y = "Frequency", title = "Histogram of total steps per day")
+p
+```
 
 ## What is the average daily activity pattern?
 

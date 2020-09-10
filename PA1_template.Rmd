@@ -50,6 +50,14 @@ p <- ggplot(data = totalStepsPerDay, aes(x = totalStepsPerDay)) + geom_histogram
 p
 ```
 
+Calculate the mean of the total number of steps taken per day
+```{r}
+mean(totalStepsPerDay$totalStepsPerDay, na.rm = TRUE)
+```
+Calculate the median of the total number of steps taken per day
+```{r}
+median(totalStepsPerDay$totalStepsPerDay, na.rm = TRUE)
+```
 ## What is the average daily activity pattern?
 
 

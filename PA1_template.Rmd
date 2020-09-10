@@ -96,9 +96,24 @@ activityWithFilledMV <- activity
 for(i in 1:nrow(activity)) {
   if(is.na(activity$steps[i])) {
 	  interval <- as.character(activity$interval[i])
-	  activityWithFilledMV$steps[i] <- meanStepsPerInterval[interval]
+	  activityWithFilledMV$steps[i] <- meanStepsPerInterval[interval,]
   }
 }
 ```
 
+Make a histogram of the total number of steps taken each day
+
+1.Calculate the total number of steps per day
+```{r}
+totalStepsPerDayWithFilledMV <- sapply(split(activityWithFilledMV$steps, activityWithFilledMV$date), sum)
+```
+2. Convert data to data frame
+```{r}
+totalStepsPerDayWithFilledMV <- as.data.frame(totalStepsPerDayWithFilledMV)
+```
+3. Create the histogram
+```{r}
+p <- ggplot(data = totalStepsPerDayWithFilledMV, aes(totalStepsPerDayWithFilledMV)) + geom_histogram(fill = "lightblue", binwidth = 1000) + labs(x = "Steps", y = "Frequency", title = "Histogram of total steps per day with filled missing values")
+p
+```
 ## Are there differences in activity patterns between weekdays and weekends?

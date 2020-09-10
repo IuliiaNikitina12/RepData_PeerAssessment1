@@ -20,69 +20,69 @@ Read file and save it in activity variable.
 ```{r cache=TRUE}
 activity <- read.csv("data/activity.csv")
 ```
-Show information about in data set using str function
+Show information about in data set using str function.
 ```{r}
 str(activity)
 ```
-Transform date to date type
+Transform date to date type.
 ```{r}
 activity <- transform(activity, date = as.Date(date))
 str(activity)
 ```
 
 ## What is mean total number of steps taken per day?
-Calculate the total number of steps per day
+Calculate the total number of steps per day.
 ```{r}
 totalStepsPerDay <- sapply(split(activity$steps, activity$date), sum)
 ```
-Sapply function returns a vector, so for plots we should convert it to data frame
+Sapply function returns a vector, so for plots we should convert it to data frame.
 ```{r}
 totalStepsPerDay <- as.data.frame(totalStepsPerDay)
 ```
-Make a histogram of the total number of steps taken each day
-1. Load package ggplot2
+Make a histogram of the total number of steps taken each day.
+1. Load package ggplot2.
 ```{r}
 library(ggplot2)
 ```
-2. Create the histogram
+2. Create the histogram.
 ```{r}
 p <- ggplot(data = totalStepsPerDay, aes(x = totalStepsPerDay)) + geom_histogram(fill = "green", binwidth = 1000) + labs(x = "Steps", y = "Frequency", title = "Histogram of total steps per day")
 p
 ```
 
-Calculate the mean of the total number of steps taken per day
+Calculate the mean of the total number of steps taken per day.
 ```{r}
 mean(totalStepsPerDay$totalStepsPerDay, na.rm = TRUE)
 ```
-Calculate the median of the total number of steps taken per day
+Calculate the median of the total number of steps taken per day.
 ```{r}
 median(totalStepsPerDay$totalStepsPerDay, na.rm = TRUE)
 ```
 ## What is the average daily activity pattern?
-Calculate the mean number of steps per interval
+Calculate the mean number of steps per interval.
 ```{r}
 meanStepsPerInterval <- sapply(split(activity$steps, activity$interval), mean, na.rm = TRUE)
 ```
-Sapply function returns a vector, so for plots we should convert it to data frame
+Sapply function returns a vector, so for plots we should convert it to data frame.
 ```{r}
 meanStepsPerInterval <- as.data.frame(meanStepsPerInterval)
 ```
-Create Time series plot of the average number of steps taken
+Create Time series plot of the average number of steps taken.
 ```{r}
 plot(row.names(meanStepsPerInterval), meanStepsPerInterval$meanStepsPerInterval, type = "l", col = "blue", lwd = 2, main = "Average number of steps per interval", xlab = "Interval", ylab = "Average steps")
 ```
 
-Calculate which interval contains the maximum number of steps
+Calculate which interval contains the maximum number of steps.
 ```{r}
 meanStepsPerInterval[which.max(meanStepsPerInterval$meanStepsPerInterval), ]
 ```
-As we can see, this value are in interval: 835
+As we can see, this value are in interval: 835.
 ```{r}
 meanStepsPerInterval["835",]
 ```
 
 ## Imputing missing values
-Calculate and report the total number of missing values in the dataset 
+Calculate and report the total number of missing values in the dataset. 
 ```{r}
 numberOfMissingValues <- sum(is.na(activity$steps))
 numberOfMissingValues
@@ -101,27 +101,27 @@ for(i in 1:nrow(activity)) {
 }
 ```
 
-Make a histogram of the total number of steps taken each day
+Make a histogram of the total number of steps taken each day.
 
-1.Calculate the total number of steps per day
+1.Calculate the total number of steps per day.
 ```{r}
 totalStepsPerDayWithFilledMV <- sapply(split(activityWithFilledMV$steps, activityWithFilledMV$date), sum)
 ```
-2. Convert data to data frame
+2. Convert data to data frame.
 ```{r}
 totalStepsPerDayWithFilledMV <- as.data.frame(totalStepsPerDayWithFilledMV)
 ```
-3. Create the histogram
+3. Create the histogram.
 ```{r}
 p <- ggplot(data = totalStepsPerDayWithFilledMV, aes(totalStepsPerDayWithFilledMV)) + geom_histogram(fill = "lightblue", binwidth = 1000) + labs(x = "Steps", y = "Frequency", title = "Histogram of total steps per day with filled missing values")
 p
 ```
 
-Calculate the mean of total number of steps taken per day
+Calculate the mean of total number of steps taken per day.
 ```{r}
 mean(totalStepsPerDayWithFilledMV$totalStepsPerDayWithFilledMV)
 ```
-Calculate the median of total number of steps taken per day
+Calculate the median of total number of steps taken per day.
 ```{r}
 median(totalStepsPerDayWithFilledMV$totalStepsPerDayWithFilledMV)
 ```
@@ -130,10 +130,9 @@ The difference between total number of steps without missing values is that valu
 ## Are there differences in activity patterns between weekdays and weekends?
 Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
 ```{r}
-weekdays(activityWithFilledMV$date)
 days <- character()
 for(i in 1:nrow(activityWithFilledMV)) {
-	if(weekdays(activityWithFilledMV$date[i]) == "Saturday" | weekdays(activityWithFilledMV$date[i]) == "Sunday") {
+	if(weekdays(activityWithFilledMV$date[i]) == "воскресенье" | weekdays(activityWithFilledMV$date[i]) == "суббота") {
 		days[i] <- "weekend"
 	}
 	else{
@@ -141,23 +140,23 @@ for(i in 1:nrow(activityWithFilledMV)) {
 	}
 }
 ```
-Load package dplyr for adding column weekdays to the dataset
-```{r}
+Load package dplyr for adding column weekdays to the dataset.
+```{r message=FALSE}
 library(dplyr)
+```
+```{r}
 activityWithFilledMV <- mutate(activityWithFilledMV, weekdays = days)
 
 activityWithFilledMV <- transform(activityWithFilledMV, weekdays = as.factor(weekdays))
-str(activityWithFilledMV)
 ```
 
 Make a panel plot of the 5-minute interval and the average number of steps taken, averaged across all weekday days or weekend days.
-1. Load package lattice
+1. Load package lattice.
 ```{r}
 library(lattice)
 ```
-2. Create the plot
+2. Create the plot.
 ```{r}
 stepsPerWeekdays <- aggregate(steps ~ interval+weekdays, data = activityWithFilledMV, mean)
-str(stepsPerWeekdays)
 xyplot(steps ~ interval | weekdays, data = stepsPerWeekdays, layout = c(1, 2), type = "l")
 ```

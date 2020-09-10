@@ -88,5 +88,17 @@ numberOfMissingValues <- sum(is.na(activity$steps))
 numberOfMissingValues
 ```
 
+The strategy for filling in all of the missing values in the dataset is to use the mean for that 5-minute interval.
+
+Create a new dataset that is equal to the original dataset but with the missing data filled in.
+```{r}
+activityWithFilledMV <- activity
+for(i in 1:nrow(activity)) {
+  if(is.na(activity$steps[i])) {
+	  interval <- as.character(activity$interval[i])
+	  activityWithFilledMV$steps[i] <- meanStepsPerInterval[interval]
+  }
+}
+```
 
 ## Are there differences in activity patterns between weekdays and weekends?

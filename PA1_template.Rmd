@@ -126,4 +126,25 @@ Calculate the median of total number of steps taken per day
 median(totalStepsPerDayWithFilledMV$totalStepsPerDayWithFilledMV)
 ```
 The difference between total number of steps without missing values is that valuea of mean and median are the same unlike the dataset with NAs.
+
 ## Are there differences in activity patterns between weekdays and weekends?
+Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
+```{r}
+weekdays <- character()
+for(i in 1:nrow(activityWithFilledMV)) {
+	if(weekdays(activityWithFilledMV$date[i]) == "Saturday" | weekdays(activityWithFilledMV$date[i]) == "Sunday") {
+		weekdays[i] <- "weekend"
+	}
+	else{
+		weekdays[i] <- "weekday"
+	}
+}
+```
+Load package dplyr for adding column weekdays to the dataset
+```{r}
+library(dplyr)
+activityWithFilledMV <- mutate(activityWithFilledMV, weekdays = weekdays)
+
+activityWithFilledMV <- transform(activityWithFilledMV, weekdays = as.factor(weekdays))
+str(activityWithFilledMV)
+```

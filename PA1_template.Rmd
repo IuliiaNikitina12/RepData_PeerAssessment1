@@ -130,21 +130,34 @@ The difference between total number of steps without missing values is that valu
 ## Are there differences in activity patterns between weekdays and weekends?
 Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
 ```{r}
-weekdays <- character()
+weekdays(activityWithFilledMV$date)
+days <- character()
 for(i in 1:nrow(activityWithFilledMV)) {
 	if(weekdays(activityWithFilledMV$date[i]) == "Saturday" | weekdays(activityWithFilledMV$date[i]) == "Sunday") {
-		weekdays[i] <- "weekend"
+		days[i] <- "weekend"
 	}
 	else{
-		weekdays[i] <- "weekday"
+		days[i] <- "weekday"
 	}
 }
 ```
 Load package dplyr for adding column weekdays to the dataset
 ```{r}
 library(dplyr)
-activityWithFilledMV <- mutate(activityWithFilledMV, weekdays = weekdays)
+activityWithFilledMV <- mutate(activityWithFilledMV, weekdays = days)
 
 activityWithFilledMV <- transform(activityWithFilledMV, weekdays = as.factor(weekdays))
 str(activityWithFilledMV)
+```
+
+Make a panel plot of the 5-minute interval and the average number of steps taken, averaged across all weekday days or weekend days.
+1. Load package lattice
+```{r}
+library(lattice)
+```
+2. Create the plot
+```{r}
+stepsPerWeekdays <- aggregate(steps ~ interval+weekdays, data = activityWithFilledMV, mean)
+str(stepsPerWeekdays)
+xyplot(steps ~ interval | weekdays, data = stepsPerWeekdays, layout = c(1, 2), type = "l")
 ```

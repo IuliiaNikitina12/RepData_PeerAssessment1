@@ -82,7 +82,11 @@ meanStepsPerInterval["835",]
 ```
 
 ## Imputing missing values
-
+Calculate and report the total number of missing values in the dataset 
+```{r}
+numberOfMissingValues <- sum(is.na(activity$steps))
+numberOfMissingValues
+```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?

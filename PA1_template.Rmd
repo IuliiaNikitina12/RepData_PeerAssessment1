@@ -116,4 +116,14 @@ totalStepsPerDayWithFilledMV <- as.data.frame(totalStepsPerDayWithFilledMV)
 p <- ggplot(data = totalStepsPerDayWithFilledMV, aes(totalStepsPerDayWithFilledMV)) + geom_histogram(fill = "lightblue", binwidth = 1000) + labs(x = "Steps", y = "Frequency", title = "Histogram of total steps per day with filled missing values")
 p
 ```
+
+Calculate the mean of total number of steps taken per day
+```{r}
+mean(totalStepsPerDayWithFilledMV$totalStepsPerDayWithFilledMV)
+```
+Calculate the median of total number of steps taken per day
+```{r}
+median(totalStepsPerDayWithFilledMV$totalStepsPerDayWithFilledMV)
+```
+The difference between total number of steps without missing values is that valuea of mean and median are the same unlike the dataset with NAs.
 ## Are there differences in activity patterns between weekdays and weekends?

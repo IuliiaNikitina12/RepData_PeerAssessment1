@@ -59,9 +59,18 @@ Calculate the median of the total number of steps taken per day
 median(totalStepsPerDay$totalStepsPerDay, na.rm = TRUE)
 ```
 ## What is the average daily activity pattern?
-
-
-
+Calculate the mean number of steps per interval
+```{r}
+meanStepsPerInterval <- sapply(split(activity$steps, activity$interval), mean, na.rm = TRUE)
+```
+Sapply function returns a vector, so for plots we should convert it to data frame
+```{r}
+meanStepsPerInterval <- as.data.frame(meanStepsPerInterval)
+```
+Create Time series plot of the average number of steps taken
+```{r}
+plot(row.names(meanStepsPerInterval), meanStepsPerInterval$meanStepsPerInterval, type = "l", col = "blue", lwd = 2, main = "Average number of steps per interval", xlab = "Interval", ylab = "Average steps")
+```
 ## Imputing missing values
 
 
